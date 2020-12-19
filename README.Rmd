@@ -8,6 +8,7 @@ always_allow_html: yes
 ```{r, echo = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
+  fig.path = "man/figures/",
   comment = "#>"
 )
 ```

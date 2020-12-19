@@ -138,6 +138,7 @@ enfram <- function(x, name = "name", value = "value") {
 
 #' importFrom utils sessionInfo packageVersion
 sinfo <- function() {
+  
   x <- utils::sessionInfo()
 
   sinfo <- c(
@@ -148,22 +149,19 @@ sinfo <- function() {
     Timezone = Sys.timezone()
   )
 
-  pkgs <- sapply(c("testthat", "covr", "covrpage"), function(x) as.character(utils::packageVersion(x)))
+  pkgs <- sapply(c("testthat", "covr", "covrpage"), 
+                 FUN = function(x){
+                   as.character(utils::packageVersion(x))
+                 })
 
   sinfo <- enfram(sinfo, name = "Field", value = "Value")
-
-  if (is_travis()) {
-    sinfo$Icon <- ""
-    sinfo$Icon[sinfo$Field == "Platform"] <- travis_image()
-    names(sinfo)[3] <- ""
-  }
-
+  
+  sinfo <- build_icon(sinfo)
+  
   pkgs <- enfram(pkgs, name = "Package", value = "Version")
 
   list(info = sinfo, pkgs = pkgs)
 }
-
-
 
 #' @title Re-export magrittr pipe operators
 #' @description magrittr pipe operators
